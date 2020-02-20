@@ -1,5 +1,18 @@
 # -*- coding:utf-8 -*-
 
+"""
+鸢尾花数据集
+鸢尾花数据集或许是最有名的模式识别测试数据。
+ 早在1936年，模式识别的先驱Fisher就在论文“The use of
+multiple measurements in taxonomic problems”中使用了它
+(直至今日该论文仍然被频繁引用)。
+该数据集包括3个鸢尾花类别，每个类别有50个样
+本。其中一个类别是与另外两类线性可分的，而另
+外两类不能线性可分。
+ 由于Fisher的最原始数据集存在两个错误(35号和38号样
+本)，实验中我们使用的是修正过的数据。
+下载链接： http://archive.ics.uci.edu/ml/datasets/Iris
+"""
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA
@@ -22,13 +35,13 @@ def extend(a, b):
 if __name__ == '__main__':
     stype = 'pca'
     pd.set_option('display.width', 200)
-    data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/6.Data/iris.data', header=None)
+    data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/4.Python/iris.data', header=None)
     # columns = np.array(['sepal_length', 'sepal_width', 'petal_length', 'petal_width', 'type'])
     columns = np.array(['花萼长度', '花萼宽度', '花瓣长度', '花瓣宽度', '类型'])
     data.rename(columns=dict(list(zip(np.arange(5), columns))), inplace=True)
     data['类型'] = pd.Categorical(data['类型']).codes
     print(data.head(5))
-    x = data[columns[:-1]]
+    x = data[columns[:-1]]#4个特征
     y = data[columns[-1]]
 
     if stype == 'pca':
@@ -63,9 +76,10 @@ if __name__ == '__main__':
     plt.show()
 
     x, x_test, y, y_test = train_test_split(x, y, train_size=0.7)
+    # 构建一个Pipeline，先将特征进行特征的升维，二阶三阶都可以。然后再喂给lr
     model = Pipeline([
-        ('poly', PolynomialFeatures(degree=2, include_bias=True)),
-        ('lr', LogisticRegressionCV(Cs=np.logspace(-3, 4, 8), cv=5, fit_intercept=False))
+        ('poly', PolynomialFeatures(degree=3, include_bias=True)),#多项式模型
+        ('lr', LogisticRegressionCV(Cs=np.logspace(-3, 4, 8), cv=5, fit_intercept=False))#lr模型
     ])
     model.fit(x, y)
     print('最优参数：', model.get_params('lr')['lr'].C_)
@@ -73,7 +87,7 @@ if __name__ == '__main__':
     print('训练集精确度：', metrics.accuracy_score(y, y_hat))
     y_test_hat = model.predict(x_test)
     print('测试集精确度：', metrics.accuracy_score(y_test, y_test_hat))
-
+    #绘图
     N, M = 500, 500     # 横纵各采样多少个值
     x1_min, x1_max = extend(x[:, 0].min(), x[:, 0].max())   # 第0列的范围
     x2_min, x2_max = extend(x[:, 1].min(), x[:, 1].max())   # 第1列的范围

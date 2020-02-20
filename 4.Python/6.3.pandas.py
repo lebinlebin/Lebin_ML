@@ -1,6 +1,14 @@
 #!/usr/bin/python
 # -*- encoding: utf-8
-
+"""
+Fuzzywuzzy - Levenshtein distance
+模糊查询与替换
+字符串的替换
+主要是利用编辑距离
+著名动态规划算法
+ABCD -> ABECD 插入一个字符，改变一个字符，删除一个字符都是一次编辑，编辑距离+1
+ABCD -> ABED
+"""
 import numpy as np
 import pandas as pd
 from fuzzywuzzy import fuzz
@@ -40,7 +48,7 @@ def fill_state_code(row):
 
 if __name__ == "__main__":
     pd.set_option('display.width', 200)
-    data = pd.read_excel('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/6.Data/sales.xlsx',
+    data = pd.read_excel('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/4.Python/sales.xlsx',
                          sheet_name='sheet1', header=0)
     print('data.head() = \n', data.head())
     print('data.tail() = \n', data.tail())

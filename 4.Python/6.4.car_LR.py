@@ -1,5 +1,15 @@
 # -*- coding:utf-8 -*-
-
+"""
+二手车辆数据描述
+ 该数据共1728个样本，每行为1个样本。每个样本有7个特征：
+ 购买价格： low/med/high/vhigh
+ 维护价格： low/med/high/vhigh
+ 车门数量： 2/3/4/5more
+ 载人数目： 2/4/more
+ 后备箱大小： small/med/big
+ 安全程度： low/med/high
+ 接受程度： unacc/acc/good/vgood
+"""
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LogisticRegressionCV
@@ -14,7 +24,7 @@ if __name__ == '__main__':
     pd.set_option('display.width', 300)
     pd.set_option('display.max_columns', 300)
 
-    data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/6.Data/car.data', header=None)
+    data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/4.Python/car.data', header=None)
     n_columns = len(data.columns)
     columns = ['buy', 'maintain', 'doors', 'persons', 'boot', 'safety', 'accept']
     new_columns = dict(list(zip(np.arange(n_columns), columns)))
@@ -28,7 +38,7 @@ if __name__ == '__main__':
         t = t.rename(columns=lambda x: col+'_'+str(x))
         x = pd.concat((x, t), axis=1)
     print(x.head(10))
-    # print x.columns
+    print (x.columns)
     y = np.array(pd.Categorical(data['accept']).codes)
     # y[y == 1] = 0
     # y[y >= 2] = 1
