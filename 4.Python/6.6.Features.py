@@ -13,6 +13,9 @@ multiple measurements in taxonomic problems”中使用了它
 本)，实验中我们使用的是修正过的数据。
 下载链接： http://archive.ics.uci.edu/ml/datasets/Iris
 """
+"""
+数据处理 数据降维PCA
+"""
 import pandas as pd
 import numpy as np
 from sklearn.decomposition import PCA

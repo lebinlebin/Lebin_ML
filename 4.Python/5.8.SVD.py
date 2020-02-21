@@ -56,9 +56,9 @@ if __name__ == "__main__":
     a = np.array(A)
     print(a.shape)
     K = 50
-    u_r, sigma_r, v_r = np.linalg.svd(a[:, :, 0])
-    u_g, sigma_g, v_g = np.linalg.svd(a[:, :, 1])
-    u_b, sigma_b, v_b = np.linalg.svd(a[:, :, 2])
+    u_r, sigma_r, v_r = np.linalg.svd(a[:, :, 0])#通道R
+    u_g, sigma_g, v_g = np.linalg.svd(a[:, :, 1])#通道G
+    u_b, sigma_b, v_b = np.linalg.svd(a[:, :, 2])#通道B
 
     plt.figure(figsize=(11, 9), facecolor='w')
     mpl.rcParams['font.sans-serif'] = ['simHei']
