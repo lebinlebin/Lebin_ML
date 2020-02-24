@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+线性回归
+正则项情况
 
+"""
 import numpy as np
 from sklearn.linear_model import LinearRegression, RidgeCV, LassoCV, ElasticNetCV
 from sklearn.preprocessing import PolynomialFeatures
@@ -45,31 +49,38 @@ if __name__ == "__main__":
     x.shape = -1, 1
     y.shape = -1, 1
 
-    models = [Pipeline([
-        ('poly', PolynomialFeatures()),
+    models = [
+
+        Pipeline([
+        ('poly', PolynomialFeatures()),# 默认 degree=2
         ('linear', LinearRegression(fit_intercept=False))]),
+
+        Pipeline([
+            ('poly', PolynomialFeatures()), #默认是带有basis截距项的,因此 下方函数中参数 it_intercept=False
+            ('linear', RidgeCV(alphas=np.logspace(-3, 2, 10), fit_intercept=False))]),#L2  这里fit_intercept可以为False
+
         Pipeline([
             ('poly', PolynomialFeatures()),
-            ('linear', RidgeCV(alphas=np.logspace(-3, 2, 10), fit_intercept=False))]),
-        Pipeline([
-            ('poly', PolynomialFeatures()),
-            ('linear', LassoCV(alphas=np.logspace(-3, 2, 10), fit_intercept=False))]),
+            ('linear', LassoCV(alphas=np.logspace(-3, 2, 10), fit_intercept=False))]),#L1
+
         Pipeline([
             ('poly', PolynomialFeatures()),
             ('linear', ElasticNetCV(alphas=np.logspace(-3, 2, 10), l1_ratio=[.1, .5, .7, .9, .95, .99, 1],
                                     fit_intercept=False))])
     ]
-    mpl.rcParams['font.sans-serif'] = ['simHei']
-    mpl.rcParams['axes.unicode_minus'] = False
-    np.set_printoptions(suppress=True)
+    mpl.rcParams['font.sans-serif'] = ['simHei']#中文
+    mpl.rcParams['axes.unicode_minus'] = False#
+    np.set_printoptions(suppress=True)#显示小数点而不是科学计数法
 
     plt.figure(figsize=(18, 12), facecolor='w')
-    d_pool = np.arange(1, N, 1)  # 阶
+    d_pool = np.arange(1, N, 1)  # 最高N-1阶  因为一共有N个样本所以N-1阶函数必能拟合这个数据。
     m = d_pool.size
+
     clrs = []  # 颜色
-    for c in np.linspace(16711680, 255, m, dtype=int):
+    for c in np.linspace(16711680, 255, m, dtype=int):#生成渐变色，从某个颜色16711680到某个颜色255(红色？)
         clrs.append('#%06x' % c)
-    line_width = np.linspace(5, 2, m)
+
+    line_width = np.linspace(5, 2, m)#线宽渐变
     titles = '线性回归', 'Ridge回归', 'LASSO', 'ElasticNet'
     tss_list = []
     rss_list = []
@@ -78,9 +89,9 @@ if __name__ == "__main__":
     for t in range(4):
         model = models[t]
         plt.subplot(2, 2, t+1)
-        plt.plot(x, y, 'ro', ms=10, zorder=N)
+        plt.plot(x, y, 'ro', ms=10, zorder=N)#红色的圈 ms=10 表示画的大一点;  zorder=N表示放在最上层;
         for i, d in enumerate(d_pool):
-            model.set_params(poly__degree=d)
+            model.set_params(poly__degree=d)#1,2,3,...8
             model.fit(x, y.ravel())
             lin = model.get_params('linear')['linear']
             output = '%s：%d阶，系数为：' % (titles[t], d)

@@ -75,7 +75,7 @@ if __name__ == "__main__":
     # 仅使用前两列特征
     x = x[:, :2]
     lr = Pipeline([('sc', StandardScaler()),
-                   ('poly', PolynomialFeatures(degree=2)),
+                   ('poly', PolynomialFeatures(degree=4)),#不同的degree
                    ('clf', LogisticRegression()) ])
     lr.fit(x, y.ravel())
     y_hat = lr.predict(x)
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     y_hat = y_hat.reshape(x1.shape)                 # 使之与输入的形状相同
     plt.figure(facecolor='w')
     plt.pcolormesh(x1, x2, y_hat, cmap=cm_light)     # 预测值的显示
-    plt.scatter(x[:, 0], x[:, 1], c=y, edgecolors='k', s=50, cmap=cm_dark)    # 样本的显示
+    plt.scatter(x[:, 0], x[:, 1], c= np.squeeze(y), edgecolors='k', s=50, cmap=cm_dark)    # 样本的显示
     plt.xlabel(u'花萼长度', fontsize=14)
     plt.ylabel(u'花萼宽度', fontsize=14)
     plt.xlim(x1_min, x1_max)

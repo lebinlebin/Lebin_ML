@@ -38,13 +38,13 @@ if __name__ == "__main__":
     y = y.ravel()
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, train_size=0.7, random_state=0)
-    # model = Pipeline([
-    #     ('ss', StandardScaler()),
-    #     ('poly', PolynomialFeatures(degree=3, include_bias=True)),
-    #     ('linear', ElasticNetCV(l1_ratio=[0.1, 0.3, 0.5, 0.7, 0.99, 1], alphas=np.logspace(-3, 2, 5),
-    #                             fit_intercept=False, max_iter=1e3, cv=3))
-    # ])
-    model = RandomForestRegressor(n_estimators=50, criterion='mse')
+    model = Pipeline([
+        ('ss', StandardScaler()),
+        ('poly', PolynomialFeatures(degree=3, include_bias=True)),
+        ('linear', ElasticNetCV(l1_ratio=[0.1, 0.3, 0.5, 0.7, 0.99, 1], alphas=np.logspace(-3, 2, 5),
+                                fit_intercept=False, max_iter=1e3, cv=3))
+    ])
+    # model = RandomForestRegressor(n_estimators=50, criterion='mse')
     print('开始建模...')
     model.fit(x_train, y_train)
     # linear = model.get_params('linear')['linear']
