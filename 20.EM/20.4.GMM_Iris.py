@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+GMM调参
+"""
 import numpy as np
 import pandas as pd
 from sklearn.mixture import GaussianMixture
@@ -21,7 +23,7 @@ def expand(a, b, rate=0.05):
 
 
 if __name__ == '__main__':
-    path = '..\\..\\9.Regression\\iris.data'
+    path = '/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/4.Python/iris.data'
     data = pd.read_csv(path, header=None)
     x_prime = data[np.arange(4)]
     y = pd.Categorical(data[4]).codes

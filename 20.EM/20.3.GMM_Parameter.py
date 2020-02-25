@@ -1,6 +1,11 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+GMM调参
+副产品
+ 双y轴
 
+"""
 import numpy as np
 from sklearn.mixture import GaussianMixture
 import matplotlib as mpl

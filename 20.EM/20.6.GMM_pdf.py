@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+似然函数值：复习Matplotlib的绘图
+"""
 import numpy as np
 from sklearn.mixture import GaussianMixture
 import scipy as sp

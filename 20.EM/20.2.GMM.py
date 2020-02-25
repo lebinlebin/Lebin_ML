@@ -1,12 +1,19 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+EM算法
+副产品
+等值线
 
+"""
 import numpy as np
 from sklearn.mixture import GaussianMixture
 from sklearn.model_selection import train_test_split
 import matplotlib as mpl
 import matplotlib.colors
 import matplotlib.pyplot as plt
+
+
 
 mpl.rcParams['font.sans-serif'] = ['SimHei']
 mpl.rcParams['axes.unicode_minus'] = False
@@ -21,7 +28,8 @@ def expand(a, b):
 
 
 if __name__ == '__main__':
-    data = np.loadtxt('..\\HeightWeight.csv', dtype=np.float, delimiter=',', skiprows=1)
+    data = np.loadtxt('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.EM/HeightWeight.csv',
+                      dtype=np.float, delimiter=',', skiprows=1)
     print(data.shape)
     y, x = np.split(data, [1, ], axis=1)
     x, x_test, y, y_test = train_test_split(x, y, train_size=0.6, random_state=0)
@@ -64,8 +72,8 @@ if __name__ == '__main__':
         grid_hat[~z] = 0
     plt.figure(figsize=(7, 6), facecolor='w')
     plt.pcolormesh(x1, x2, grid_hat, cmap=cm_light)
-    plt.scatter(x[:, 0], x[:, 1], s=50, c=y, marker='o', cmap=cm_dark, edgecolors='k')
-    plt.scatter(x_test[:, 0], x_test[:, 1], s=60, c=y_test, marker='^', cmap=cm_dark, edgecolors='k')
+    plt.scatter(x[:, 0], x[:, 1], s=50, c=np.squeeze(y), marker='o', cmap=cm_dark, edgecolors='k')
+    plt.scatter(x_test[:, 0], x_test[:, 1], s=60, c=np.squeeze(y_test), marker='^', cmap=cm_dark, edgecolors='k')
 
     p = gmm.predict_proba(grid_test)
     print(p)

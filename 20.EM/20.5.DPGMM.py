@@ -1,6 +1,11 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+DPGMM
+ Dirichlet Process Gaussian Mixture Model
+ 先验分布
 
+"""
 import numpy as np
 from sklearn.mixture import GaussianMixture, BayesianGaussianMixture
 import scipy as sp

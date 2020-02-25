@@ -1,6 +1,9 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+多维GMM聚类： EM算法
 
+"""
 import numpy as np
 from scipy.stats import multivariate_normal
 from sklearn.mixture import GaussianMixture
@@ -24,6 +27,7 @@ if __name__ == '__main__':
     mu2_fact = (2, 2, 1)
     cov2_fact = np.array(((1, 1, 3), (1, 2, 1), (0, 0, 1)))
     data2 = np.random.multivariate_normal(mu2_fact, cov2_fact, 100)
+
     data = np.vstack((data1, data2))
     y = np.array([True] * 400 + [False] * 100)
 
@@ -36,7 +40,7 @@ if __name__ == '__main__':
         mu1, mu2 = g.means_
         sigma1, sigma2 = g.covariances_
     else:
-        num_iter = 100
+        num_iter = 10000
         n, d = data.shape
         # 随机指定
         # mu1 = np.random.standard_normal(d)
