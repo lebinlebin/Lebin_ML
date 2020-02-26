@@ -54,6 +54,7 @@ if __name__ == '__main__':
     plt.figure(facecolor='w')
     ax = plt.axes()
     b1 = ax.bar(xpos-0.3, err, width=0.3, color='#77E0A0', edgecolor='k')
+    #生成主次坐标系结构
     b2 = ax.twinx().bar(xpos, bic, width=0.3, color='#FF8080', edgecolor='k')
     plt.grid(b=True, ls=':', color='#606060')
     bic_min, bic_max = expand(bic.min(), bic.max())

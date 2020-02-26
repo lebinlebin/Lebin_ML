@@ -24,12 +24,19 @@ if __name__ == '__main__':
     mu1_fact = (0, 0, 0)
     cov1_fact = np.diag((1, 2, 3))
     data1 = np.random.multivariate_normal(mu1_fact, cov1_fact, 400)
+    print("--------------",data1.shape)# (400, 3)
     mu2_fact = (2, 2, 1)
     cov2_fact = np.array(((1, 1, 3), (1, 2, 1), (0, 0, 1)))
+    # 1 1 3
+    # 1 2 1
+    # 0 0 1
     data2 = np.random.multivariate_normal(mu2_fact, cov2_fact, 100)
+    print("--------------",data2.shape)#(100, 3)
 
     data = np.vstack((data1, data2))
     y = np.array([True] * 400 + [False] * 100)
+
+
 
     if style == 'sklearn':
         g = GaussianMixture(n_components=2, covariance_type='full', tol=1e-6, max_iter=1000)
@@ -40,7 +47,7 @@ if __name__ == '__main__':
         mu1, mu2 = g.means_
         sigma1, sigma2 = g.covariances_
     else:
-        num_iter = 10000
+        num_iter = 100
         n, d = data.shape
         # 随机指定
         # mu1 = np.random.standard_normal(d)

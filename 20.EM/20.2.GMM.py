@@ -4,7 +4,6 @@
 EM算法
 副产品
 等值线
-
 """
 import numpy as np
 from sklearn.mixture import GaussianMixture
@@ -21,7 +20,7 @@ mpl.rcParams['axes.unicode_minus'] = False
 # font_set = FontProperties(fname=r"c:\windows\fonts\simsun.ttc", size=15)
 # fontproperties=font_set
 
-
+#
 def expand(a, b):
     d = (b - a) * 0.05
     return a-d, b+d
@@ -36,12 +35,17 @@ if __name__ == '__main__':
     gmm = GaussianMixture(n_components=2, covariance_type='full', random_state=0)
     x_min = np.min(x, axis=0)
     x_max = np.max(x, axis=0)
-    gmm.fit(x)
+    gmm.fit(x) # Estimate model parameters with the EM algorithm
+
     print('均值 = \n', gmm.means_)
     print('方差 = \n', gmm.covariances_)
+
     y_hat = gmm.predict(x)
     y_test_hat = gmm.predict(x_test)
-    change = (gmm.means_[0][0] > gmm.means_[1][0])
+
+
+    #           第一个类别的均值    第二个类别的均值   我们希望先显示女性，再显示男性。所以反过来
+    change = (gmm.means_[0][0] > gmm.means_[1][0]) #
     if change:
         z = y_hat == 0
         y_hat[z] = 1
@@ -49,8 +53,10 @@ if __name__ == '__main__':
         z = y_test_hat == 0
         y_test_hat[z] = 1
         y_test_hat[~z] = 0
+
     acc = np.mean(y_hat.ravel() == y.ravel())
     acc_test = np.mean(y_test_hat.ravel() == y_test.ravel())
+
     acc_str = '训练集准确率：%.2f%%' % (acc * 100)
     acc_test_str = '测试集准确率：%.2f%%' % (acc_test * 100)
     print(acc_str)
@@ -63,23 +69,38 @@ if __name__ == '__main__':
     x1_min, x1_max = expand(x1_min, x1_max)
     x2_min, x2_max = expand(x2_min, x2_max)
     x1, x2 = np.mgrid[x1_min:x1_max:500j, x2_min:x2_max:500j]
-    grid_test = np.stack((x1.flat, x2.flat), axis=1)
-    grid_hat = gmm.predict(grid_test)
-    grid_hat = grid_hat.reshape(x1.shape)
+    # x1.shape (500, 500)
+    grid_test = np.stack((x1.flat, x2.flat), axis=1)#各个维度从小到大生成一个数据矩阵
+    print("----------\n",grid_test)
+    print("----------\n",grid_test.shape)# (250000, 2)
+
+
+    grid_hat = gmm.predict(grid_test)#按照0.5分成两个类别
+    print("----------\n",grid_hat.shape)#  (250000,)
+    print("----------\n",x1.shape) # (500, 500)
+    grid_hat = grid_hat.reshape(x1.shape)#获得预测值，这里是造的数据的预测值。
+    print("----------\n",grid_hat.shape)# (500, 500)
+
     if change:
         z = grid_hat == 0
         grid_hat[z] = 1
         grid_hat[~z] = 0
+
+
     plt.figure(figsize=(7, 6), facecolor='w')
     plt.pcolormesh(x1, x2, grid_hat, cmap=cm_light)
     plt.scatter(x[:, 0], x[:, 1], s=50, c=np.squeeze(y), marker='o', cmap=cm_dark, edgecolors='k')
     plt.scatter(x_test[:, 0], x_test[:, 1], s=60, c=np.squeeze(y_test), marker='^', cmap=cm_dark, edgecolors='k')
 
-    p = gmm.predict_proba(grid_test)
+    p = gmm.predict_proba(grid_test) #造的数据的概率值
+    np.set_printoptions(suppress=True)
     print(p)
-    p = p[:, 0].reshape(x1.shape)
+    #可以绘制等值线，等概率曲线
+    p = p[:, 0].reshape(x1.shape)#女性的预测概率值
+
     CS = plt.contour(x1, x2, p, levels=(0.1, 0.5, 0.8), colors=list('rgb'), linewidths=2)
     plt.clabel(CS, fontsize=12, fmt='%.1f', inline=True)
+
     ax1_min, ax1_max, ax2_min, ax2_max = plt.axis()
     xx = 0.95*ax1_min + 0.05*ax1_max
     yy = 0.05*ax2_min + 0.95*ax2_max

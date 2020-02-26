@@ -5,6 +5,9 @@ DPGMM
  Dirichlet Process Gaussian Mixture Model
  先验分布
 
+数据其实是两类，如果我们给定K=3，可以用DPGMM其实给错了K也能正确分开
+
+
 """
 import numpy as np
 from sklearn.mixture import GaussianMixture, BayesianGaussianMixture
@@ -49,7 +52,7 @@ if __name__ == '__main__':
     grid_test = np.stack((x1.flat, x2.flat), axis=1)
 
     plt.figure(figsize=(6, 6), facecolor='w')
-    plt.suptitle('GMM/DPGMM比较', fontsize=15)
+    plt.suptitle('GMM/DPGMM 比较', fontsize=15)
 
     ax = plt.subplot(211)
     gmm = GaussianMixture(n_components=n_components, covariance_type='full', random_state=0)
@@ -81,9 +84,10 @@ if __name__ == '__main__':
     plt.title('GMM', fontsize=15)
     plt.grid(b=True, ls=':', color='#606060')
 
-    # DPGMM
+    # DPGMM n_init=5重复5次取出最大的
     dpgmm = BayesianGaussianMixture(n_components=n_components, covariance_type='full', max_iter=1000, n_init=5,
                                     weight_concentration_prior_type='dirichlet_process', weight_concentration_prior=0.1)
+    #没有样本落在第三个分布上
     dpgmm.fit(x)
     centers = dpgmm.means_
     covs = dpgmm.covariances_

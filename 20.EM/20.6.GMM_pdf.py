@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 """
 似然函数值：复习Matplotlib的绘图
+绘制似然函数
 """
 import numpy as np
 from sklearn.mixture import GaussianMixture
@@ -50,6 +51,7 @@ if __name__ == '__main__':
     x1, x2 = np.mgrid[x1_min:x1_max:500j, x2_min:x2_max:500j]
     grid_test = np.stack((x1.flat, x2.flat), axis=1)
     print(gmm.score_samples(grid_test))
+    #似然函数
     grid_hat = -gmm.score_samples(grid_test)
     grid_hat = grid_hat.reshape(x1.shape)
     plt.figure(figsize=(7, 6), facecolor='w')
