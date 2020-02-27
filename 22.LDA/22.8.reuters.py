@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
-
+"""
+路透社数据
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -31,6 +33,11 @@ if __name__ == "__main__":
     topic_num = 20
     model = lda.LDA(n_topics=topic_num, n_iter=800, random_state=1)
     model.fit(X)
+    #打印每次似然函数值
+    # INFO: lda: < 0 > log likelihood: -1051748
+    # INFO: lda: < 10 > log likelihood: -719800
+
+
 
     # topic-word
     topic_word = model.topic_word_

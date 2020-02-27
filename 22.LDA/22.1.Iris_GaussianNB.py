@@ -19,10 +19,8 @@ def iris_type(s):
     it = {'Iris-setosa': 0, 'Iris-versicolor': 1, 'Iris-virginica': 2}
     return it[s]
 
-
 if __name__ == "__main__":
     data_type = 'iris'  # iris
-
     if data_type == 'car':
         colmun_names = 'buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'acceptability'
         data = pd.read_csv('car.data', header=None, names=colmun_names)
@@ -59,7 +57,7 @@ if __name__ == "__main__":
         y_test_hat = gnb.predict(x_test)
         print('IRIS测试集准确度：%.2f%%' % (100 * accuracy_score(y_test, y_test_hat)))  # 画图
 
-        N, M = 500, 500     # 横纵各采样多少个值
+        N, M = 500, 500   # 横纵各采样多少个值
         x1_min, x2_min = x.min()
         x1_max, x2_max = x.max()
         t1 = np.linspace(x1_min, x1_max, N)

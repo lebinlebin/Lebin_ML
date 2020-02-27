@@ -22,10 +22,11 @@ def update(f):
     # Save
     if save_image:
         if f % 3 == 0:
+            print("-------------------\n",f)
             image_data = plt.cm.coolwarm(loc) * 255
             image_data, _ = np.split(image_data, (-1, ), axis=2)
             image_data = image_data.astype(np.uint8).clip(0, 255)
-            output = '.\\Pic2\\'
+            output = '/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/Pic2'
             if not os.path.exists(output):
                 os.mkdir(output)
             a = Image.fromarray(image_data, mode='RGB')
@@ -49,8 +50,9 @@ if __name__ == '__main__':
     np.set_printoptions(suppress=True, linewidth=300, edgeitems=8)
     np.random.seed(0)
 
-    save_image = False
-    style = 'Sin'   # Sin/Direct/Random
+    save_image = True
+    #False
+    style = 'Direct'   # Sin/Direct/Random
     m, n = 50, 100
     directions = np.random.rand(m, n, 8)
 

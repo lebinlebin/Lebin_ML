@@ -44,7 +44,8 @@ def regularize_data(file_name):
     qq_pattern1 = re.compile(r'([1-9]\d{4,15})')    # QQ号最小是10000
     qq_pattern2 = re.compile(r'(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)')
     f = open(file_name, encoding='utf-8')
-    f_output = open('QQ_chat.csv', mode='w', encoding='utf-8')
+    f_output = open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/QQ_chat.csv',
+                    mode='w', encoding='utf-8')
     f_output.write('QQ,Time,Info\n')
     qq = chat_time = info = ''
     for line in f:
@@ -129,7 +130,7 @@ def export_perplexity1(corpus_tfidf, dictionary, corpus):
     print(lp2)
     column_names = 'Topic', 'Perplexity_Corpus', 'Perplexity_TFIDF'
     perplexity_topic = pd.DataFrame(data=list(zip(topic_nums, lp1, lp2)), columns=column_names)
-    perplexity_topic.to_csv('perplexity.csv', header=True, index=False)
+    perplexity_topic.to_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/perplexity.csv', header=True, index=False)
 
 
 def export_perplexity2(corpus_tfidf, dictionary, corpus):
@@ -153,7 +154,7 @@ def export_perplexity2(corpus_tfidf, dictionary, corpus):
     print(lp2)
     column_names = 'Passes', 'Perplexity_Corpus', 'Perplexity_TFIDF'
     perplexity_topic = pd.DataFrame(data=list(zip(passes, lp1, lp2)), columns=column_names)
-    perplexity_topic.to_csv('perplexity2.csv', header=True, index=False)
+    perplexity_topic.to_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/perplexity2.csv', header=True, index=False)
 
 
 def lda(export_perplexity=False):
@@ -184,7 +185,7 @@ def lda(export_perplexity=False):
     print('LDA模型完成，训练时间为\t%.3f秒' % (time.time() - t_start))
     if export_perplexity:
         export_perplexity1(corpus_tfidf, dictionary, corpus)
-        # export_perplexity2(corpus_tfidf, dictionary, corpus)
+        export_perplexity2(corpus_tfidf, dictionary, corpus)
     # # 所有文档的主题
     # doc_topic = [a for a in lda[corpus_tfidf]]
     # print 'Document-Topic:\n'
@@ -283,5 +284,5 @@ if __name__ == '__main__':
     print('combine')
     combine()
     print('lda')
-    lda(export_perplexity=False)
-    # show_perplexity()
+    lda(export_perplexity=True)
+    show_perplexity()

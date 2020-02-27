@@ -17,7 +17,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 
 
-def test_clf(clf):
+def text_clf(clf):
     print( u'分类器：', clf)
     alpha_can = np.logspace(-3, 2, 10)
     model = GridSearchCV(clf, param_grid={'alpha': alpha_can}, cv=5)
@@ -102,7 +102,7 @@ if __name__ == "__main__":
             )
     result = []
     for clf in clfs:
-        a = test_clf(clf)
+        a = text_clf(clf)
         result.append(a)
         print( '\n')
     result = np.array(result)
@@ -111,7 +111,8 @@ if __name__ == "__main__":
     time_test = time_test.astype(np.float)
     err = err.astype(np.float)
     x = np.arange(len(time_train))
-    mpl.rcParams['font.sans-serif'] = [u'simHei']
+    mpl.rcParams['font.sans-serif'] = 'SimHei'
+    # mpl.rcParams['font.sans-serif'] = [u'simHei']
     mpl.rcParams['axes.unicode_minus'] = False
     plt.figure(figsize=(10, 7), facecolor='w')
     ax = plt.axes()

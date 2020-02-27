@@ -23,7 +23,7 @@ if __name__ == '__main__':
     stop_words = load_stopword()
 
     print('开始读入语料数据 -- ')
-    f = open('./news.dat', encoding='utf-8')    #LDA_test.txt
+    f = open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/news.dat', encoding='utf-8')    #LDA_test.txt
     texts = [[word for word in line.strip().lower().split() if word not in stop_words] for line in f]
     # texts = [line.strip().split() for line in f]
     print('读入语料数据完成，用时%.3f秒' % (time.time() - t_start))
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     t_start = time.time()
     lda = models.LdaModel(corpus_tfidf, num_topics=num_topics, id2word=dictionary,
                             alpha=0.01, eta=0.01, minimum_probability=0.001,
-                            update_every = 1, chunksize = 100, passes=5)
+                            update_every = 1, chunksize = 100, passes=5)#passes=5 重复做5次
     print('LDA模型完成，训练时间为\t%.3f秒' % (time.time() - t_start))
     # # 所有文档的主题
     # doc_topic = [a for a in lda[corpus_tfidf]]
