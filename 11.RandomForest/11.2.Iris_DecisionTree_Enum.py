@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+用决策树做鸢尾花分类
+"""
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
@@ -14,7 +16,7 @@ if __name__ == "__main__":
     mpl.rcParams['axes.unicode_minus'] = False
 
     iris_feature = u'花萼长度', u'花萼宽度', u'花瓣长度', u'花瓣宽度'
-    path = 'E:\CODEING\codeingForSelfStudy\ML_Learning_code\9.Regression\iris.data'  # 数据文件路径
+    path = '/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/11.RandomForest/iris.data'  # 数据文件路径
     data = pd.read_csv(path, header=None)
     x_prime = data[list(range(4))]
     y = pd.Categorical(data[4]).codes

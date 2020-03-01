@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+决策树用于拟合
+"""
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt

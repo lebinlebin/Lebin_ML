@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+多输出决策树
+"""
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -16,10 +18,10 @@ if __name__ == "__main__":
     print('====================')
     # y1 = np.sin(x) + 3 + np.random.randn(N) * 0.1
     # y2 = np.cos(0.3*x) + np.random.randn(N) * 0.01
-    # y1 = np.sin(x) + np.random.randn(N) * 0.05
-    # y2 = np.cos(x) + np.random.randn(N) * 0.1
-    y1 = 16 * np.sin(x) ** 3 + np.random.randn(N)*0.5
-    y2 = 13 * np.cos(x) - 5 * np.cos(2*x) - 2 * np.cos(3*x) - np.cos(4*x) + np.random.randn(N)*0.5
+    y1 = np.sin(x) + np.random.randn(N) * 0.05
+    y2 = np.cos(x) + np.random.randn(N) * 0.1
+    # y1 = 16 * np.sin(x) ** 3 + np.random.randn(N)*0.5
+    # y2 = 13 * np.cos(x) - 5 * np.cos(2*x) - 2 * np.cos(3*x) - np.cos(4*x) + np.random.randn(N)*0.5
     np.set_printoptions(suppress=True)
     print(y1)
     print(y2)

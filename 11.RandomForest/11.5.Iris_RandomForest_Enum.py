@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
+"""
+用随机森林做鸢尾花数据分类
+鸢尾花数据从四个特征里面选择两个共有6种构建决策树的可视化表示
 
+"""
 import numpy as np
 import pandas as pd
 import matplotlib as mpl

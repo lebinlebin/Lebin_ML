@@ -31,7 +31,7 @@ if __name__ == "__main__":
     path = '/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/11.RandomForest/iris.data'  # 数据文件路径
     data = pd.read_csv(path, header=None)
     x = data[list(range(4))]
-    # y = pd.Categorical(data[4]).codes
+    y = pd.Categorical(data[4]).codes
     y = LabelEncoder().fit_transform(data[4])
     # 为了可视化，仅使用前两列特征
     x = x.iloc[:, :2]
@@ -41,7 +41,7 @@ if __name__ == "__main__":
     # 决策树参数估计
     # min_samples_split = 10：如果该结点包含的样本数目大于10，则(有可能)对其分支
     # min_samples_leaf = 10：若将某结点分支后，得到的每个子结点样本数目都大于10，则完成分支；否则，不进行分支
-    model = DecisionTreeClassifier(criterion='entropy')
+    model = DecisionTreeClassifier(criterion='entropy')#,min_samples_leaf = 10
     model.fit(x_train, y_train)
     y_test_hat = model.predict(x_test)      # 测试数据
     print('accuracy_score:', accuracy_score(y_test, y_test_hat))
@@ -49,15 +49,16 @@ if __name__ == "__main__":
     # 保存
     # dot -Tpng my.dot -o my.png
     # 1、输出
-    with open('iris.dot', 'w') as f:
+    with open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/11.RandomForest/iris.dot', 'w') as f:
         tree.export_graphviz(model, out_file=f)
     # 2、给定文件名
     tree.export_graphviz(model, out_file='iris1.dot')
-    # 3、输出为pdf格式
+
+    # 3、输出为pdf格式  feature_names=iris_feature_E[0:2]
     dot_data = tree.export_graphviz(model, out_file=None, feature_names=iris_feature_E[0:2], class_names=iris_class,
                                     filled=True, rounded=True, special_characters=True)
     graph = pydotplus.graph_from_dot_data(dot_data)
-    graph.write_pdf('iris.pdf')
+    graph.write_pdf('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/11.RandomForest/iris.pdf')
     f = open('iris.png', 'wb')
     f.write(graph.create_png())
     f.close()
