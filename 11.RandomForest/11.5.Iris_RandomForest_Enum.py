@@ -35,6 +35,7 @@ if __name__ == "__main__":
         # 决策树学习
         model = RandomForestClassifier(n_estimators=100, criterion='entropy', max_depth=5, oob_score=True)
         model.fit(x_train, y_train)
+        print(model.oob_score_)
 
         # 画图
         N, M = 500, 500  # 横纵各采样多少个值

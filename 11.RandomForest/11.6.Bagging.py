@@ -1,6 +1,9 @@
 # /usr/bin/python
 # -*- encoding:utf-8 -*-
+"""
+回归曲线拟合
 
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -12,8 +15,9 @@ from sklearn.preprocessing import PolynomialFeatures
 
 
 def f(x):
+    return 0.5*np.exp(-(x+3) ** 2) + np.exp(-x**2) + 0.5*np.exp(-(x-3) ** 2)
+def f2(x):
     return 0.5*np.exp(-(x+3) ** 2) + np.exp(-x**2) + 1.5*np.exp(-(x-3) ** 2)
-
 
 if __name__ == "__main__":
     np.random.seed(0)
