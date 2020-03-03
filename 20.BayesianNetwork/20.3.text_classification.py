@@ -1,6 +1,21 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
 #20.3.text_classification.py
+"""
+文本分类实验
+ 实验数据：新闻组中的20个类别，原始文本数目约
+两万个，根据新闻组中文本的时间前后，划分成训
+两万个根据新闻组中文本
+ 该数据最初应该是Ken Lang搜集整理。
+ 数据获取：
+ 可使用sklearn.datasets.fetch_20newsgroups获取原始文本
+ 或者使用sklearn.datasets.fetch_20newsgroups_vectorized返
+回文本向量
+ 该原始数据可以在该网页完整下载：
+ http://qwone.com/~jason/20Newsgroups/
+ 该课程的配套数据中已经包含该原始数据。
+
+"""
 import numpy as np
 from sklearn.naive_bayes import MultinomialNB, BernoulliNB
 from sklearn.datasets import fetch_20newsgroups
@@ -24,16 +39,16 @@ def test_clf(clf):
     if hasattr(clf, 'alpha'):
         model.set_params(param_grid={'alpha': alpha_can})
         m = alpha_can.size
-    if hasattr(clf, 'n_neighbors'):
+    if hasattr(clf, 'n_neighbors'):#KNN
         neighbors_can = np.arange(1, 15)
         model.set_params(param_grid={'n_neighbors': neighbors_can})
         m = neighbors_can.size
-    if hasattr(clf, 'C'):
+    if hasattr(clf, 'C'):#SVM
         C_can = np.logspace(1, 3, 3)
         gamma_can = np.logspace(-3, 0, 3)
         model.set_params(param_grid={'C':C_can, 'gamma':gamma_can})
         m = C_can.size * gamma_can.size
-    if hasattr(clf, 'max_depth'):
+    if hasattr(clf, 'max_depth'):#随机森林
         max_depth_can = np.arange(4, 10)
         model.set_params(param_grid={'max_depth': max_depth_can})
         m = max_depth_can.size
@@ -83,6 +98,7 @@ if __name__ == "__main__":
         print (u'文本%d(属于类别 - %s)：' % (i+1, categories[y_train[i]]))
         print (data_train.data[i])
         print ('\n\n')
+
     vectorizer = TfidfVectorizer(input='content', stop_words='english', max_df=0.5, sublinear_tf=True)
     x_train = vectorizer.fit_transform(data_train.data)  # x_train是稀疏的，scipy.sparse.csr.csr_matrix
     x_test = vectorizer.transform(data_test.data)
@@ -92,18 +108,43 @@ if __name__ == "__main__":
     feature_names = np.asarray(vectorizer.get_feature_names())
 
     print (u'\n\n===================\n分类器的比较：\n')
-    clfs = (MultinomialNB(),                # 0.87(0.017), 0.002, 90.39%
+    clfs = (MultinomialNB(),                # 0.87(0.017), 0.002, 90.39% 超参数 alpa,多项式平滑参数，避免没有出现的词导致概率计算为0
             BernoulliNB(),                  # 1.592(0.032), 0.010, 88.54%
             KNeighborsClassifier(),         # 19.737(0.282), 0.208, 86.03%
             RidgeClassifier(),              # 25.6(0.512), 0.003, 89.73%
             RandomForestClassifier(n_estimators=200),   # 59.319(1.977), 0.248, 77.01%
             SVC()                           # 236.59(5.258), 1.574, 90.10%
             )
+    """
+    分类器： MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)
+    分类器： BernoulliNB(alpha=1.0, binarize=0.0, class_prior=None, fit_prior=True)
+    分类器： KNeighborsClassifier(algorithm='auto', leaf_size=30, metric='minkowski',
+                     metric_params=None, n_jobs=None, n_neighbors=5, p=2,
+                     weights='uniform')
+    分类器： RidgeClassifier(alpha=1.0, class_weight=None, copy_X=True, fit_intercept=True,
+                max_iter=None, normalize=False, random_state=None,
+                solver='auto', tol=0.001)
+    分类器： RandomForestClassifier(bootstrap=True, ccp_alpha=0.0, class_weight=None,
+                       criterion='gini', max_depth=None, max_features='auto',
+                       max_leaf_nodes=None, max_samples=None,
+                       min_impurity_decrease=0.0, min_impurity_split=None,
+                       min_samples_leaf=1, min_samples_split=2,
+                       min_weight_fraction_leaf=0.0, n_estimators=200,
+                       n_jobs=None, oob_score=False, random_state=None,
+                       verbose=0, warm_start=False)
+    分类器： SVC(C=1.0, break_ties=False, cache_size=200, class_weight=None, coef0=0.0,
+    decision_function_shape='ovr', degree=3, gamma='scale', kernel='rbf',
+    max_iter=-1, probability=False, random_state=None, shrinking=True,
+    tol=0.001, verbose=False)
+    
+    """
     result = []
     for clf in clfs:
         a = test_clf(clf)
         result.append(a)
         print ('\n')
+
+
     result = np.array(result)
     time_train, time_test, err, names = result.T
     time_train = time_train.astype(np.float)

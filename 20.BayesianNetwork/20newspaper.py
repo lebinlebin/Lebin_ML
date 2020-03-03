@@ -9,6 +9,8 @@ twenty_train = fetch_20newsgroups(subset='train', categories=categories, shuffle
 from sklearn.feature_extraction.text import CountVectorizer
 count_vect = CountVectorizer()
 X_train_counts = count_vect.fit_transform(twenty_train.data)
+
+
 '''
 这是开始提取特征，这里的特征是TFIDF特征。
 '''
@@ -21,6 +23,7 @@ X_train_tfidf = tfidf_transformer.fit_transform(X_train_counts)
 '''
 from sklearn.naive_bayes import MultinomialNB
 clf = MultinomialNB().fit(X_train_tfidf, twenty_train.target)
+
 docs_new = ['God is love', 'OpenGL on the GPU is fast']
 X_new_counts = count_vect.transform(docs_new)
 X_new_tfidf = tfidf_transformer.transform(X_new_counts)

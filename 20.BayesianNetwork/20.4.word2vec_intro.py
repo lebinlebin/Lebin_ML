@@ -1,13 +1,23 @@
 # etc/bin/python
 # -*- encoding: utf-8 -*-
 # 2015.5 14天的新闻语料
+"""
+word2vec
+ Word2vec本质是建立了3层神经网络，将所
+有词都映射为一定长度(如200)的向量；取一
+定的窗口范围作为当前词的邻域，估计窗口
+内的词。
+ 词潜入
+ 实验中使用2015年5月爬取的网页新闻作为
+输入文本，使用gensim的Word2vec包训练词
+向量。
+
+"""
 #20.4.word2vec_intro.py
 from time import time
 from gensim.models import Word2Vec
 import sys
 import os
-
-
 
 
 
@@ -18,6 +28,7 @@ class LoadCorpora(object):
     def __iter__(self):
         f = open(self.path,'r')
         for line in f:
+            print(line)
             yield line.split(' ')
 
 
@@ -29,8 +40,8 @@ def print_list(a):
 
 
 if __name__ == '__main__':
-    if not os.path.exists('news.model'):
-        sentences = LoadCorpora('news.dat')#Load 语料
+    if not os.path.exists('news2.model'):
+        sentences = LoadCorpora('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.BayesianNetwork/news.dat')#Load 语料
         t_start = time()
         model = Word2Vec(sentences, size=200, min_count=5, workers=8)  # 词向量维度为200，丢弃出现次数少于5次的词
         model.save('news.model')
@@ -61,7 +72,7 @@ if __name__ == '__main__':
             w2 = words[j]
             print ('%s 和 %s 的相似度为：%.6f' % (w1, w2, model.similarity(w1, w2)))
 
-    print ('========================')
+    print('========================')
     opposites = ((['中国', '城市'], ['学生']),
                  (['男', '工作'], ['女']),
                  (['俄罗斯', '美国', '英国'], ['日本']))

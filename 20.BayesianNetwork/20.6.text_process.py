@@ -39,7 +39,7 @@ if __name__ == "__main__":
     stopwords = set()
     load_stopwords()
     input_dir = '.\\200806\\'
-    output_dir = '.\\200806_segment'
+    output_dir = '200806_segment/200806_segment'
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
     for file_name in os.listdir(input_dir):

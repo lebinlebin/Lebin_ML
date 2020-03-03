@@ -32,7 +32,7 @@ if __name__ == "__main__":
     gnb = Pipeline([
         ('sc', StandardScaler()),
         ('poly', PolynomialFeatures(degree=1)),
-        ('clf', GaussianNB(priors=priors))])    # 由于鸢尾花数据是样本均衡的，其实不需要设置先验值
+        ('clf', GaussianNB(priors=priors))])    # 由于鸢尾花数据是样本均衡的，其实不需要设置先验值 这里设置 priors = np.array((1,2,4), dtype=float) 为(1,1,1)
     # gnb = KNeighborsClassifier(n_neighbors=3).fit(x, y.ravel())
     gnb.fit(x, y.ravel())
     y_hat = gnb.predict(x)

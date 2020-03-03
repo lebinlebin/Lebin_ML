@@ -34,15 +34,15 @@ def print_list(a):
 if __name__ == '__main__':
     if not os.path.exists('200806.model'):
     #if not os.path.exists('news.model'):
-        sentences = LoadCorpora('..//200806_segment')
+        sentences = LoadCorpora('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.BayesianNetwork/200806_segment')
         t_start = time()
         model = Word2Vec(sentences, size=200, min_count=5, workers=8)  # 词向量维度为200，丢弃出现次数少于5次的词
         model.save('200806.model')
         print ('OK:', time() - t_start)
 
     model = Word2Vec.load('200806.model')
-    print (type(model.vocab), len(model.vocab))
-    for i, word in enumerate(model.vocab):
+    print (type(model.wv.vocab), len(model.wv.vocab)) #model.wv.vocab
+    for i, word in enumerate(model.wv.vocab):
         print (word,)
         if i % 50 == 49:
             print()
