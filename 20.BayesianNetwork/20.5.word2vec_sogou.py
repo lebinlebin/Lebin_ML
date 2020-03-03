@@ -34,6 +34,7 @@ def print_list(a):
 if __name__ == '__main__':
     if not os.path.exists('200806.model'):
     #if not os.path.exists('news.model'):
+        # sentences = LoadCorpora('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/200806_segment')
         sentences = LoadCorpora('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.BayesianNetwork/200806_segment')
         t_start = time()
         model = Word2Vec(sentences, size=200, min_count=5, workers=8)  # 词向量维度为200，丢弃出现次数少于5次的词
