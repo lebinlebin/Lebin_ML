@@ -20,10 +20,10 @@ from pprint import pprint
 def save_image(im, i):
     im = 255 - im.values.reshape(28, 28)
     a = im.astype(np.uint8)
-    output_path = '.\\HandWritten'
+    output_path = './HandWritten2'
     if not os.path.exists(output_path):
         os.mkdir(output_path)
-    Image.fromarray(a).save(output_path + ('\\%d.png' % i))
+    Image.fromarray(a).save(output_path + ('/%d.png' % i))
 
 
 def save_result(model):
