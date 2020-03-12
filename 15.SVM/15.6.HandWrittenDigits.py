@@ -21,21 +21,21 @@ def save_image(im, i):
     im *= 15.9375
     im = 255 - im
     a = im.astype(np.uint8)
-    output_path = '.\\HandWritten'
+    output_path = './HandWritten'
     if not os.path.exists(output_path):
         os.mkdir(output_path)
-    Image.fromarray(a).save(output_path + ('\\%d.png' % i))
+    Image.fromarray(a).save(output_path + ('/%d.png' % i))
 
 
 if __name__ == "__main__":
     print('Load Training File Start...')
-    data = np.loadtxt('optdigits.tra', dtype=np.float, delimiter=',')
+    data = np.loadtxt('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/15.SVM/optdigits.tra', dtype=np.float, delimiter=',')
     x, y = np.split(data, (-1, ), axis=1)
     images = x.reshape(-1, 8, 8)
     y = y.ravel().astype(np.int)
 
     print('Load Test Data Start...')
-    data = np.loadtxt('optdigits.tes', dtype=np.float, delimiter=',')
+    data = np.loadtxt('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/15.SVM/optdigits.tes', dtype=np.float, delimiter=',')
     x_test, y_test = np.split(data, (-1, ), axis=1)
     print(y_test.shape)
     images_test = x_test.reshape(-1, 8, 8)

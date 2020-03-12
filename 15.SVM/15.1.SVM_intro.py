@@ -16,7 +16,7 @@ from sklearn.metrics import accuracy_score
 
 if __name__ == "__main__":
     iris_feature = '花萼长度', '花萼宽度', '花瓣长度', '花瓣宽度'
-    path = '..\\9.Regression\\iris.data'  # 数据文件路径
+    path = '/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/9.Regression/iris.data'  # 数据文件路径
     data = pd.read_csv(path, header=None)
     x, y = data[[0, 1]], pd.Categorical(data[4]).codes
     x_train, x_test, y_train, y_test = train_test_split(x, y, random_state=1, train_size=0.6)
@@ -28,14 +28,21 @@ if __name__ == "__main__":
 
     # 准确率
     print(clf.score(x_train, y_train))  # 精度
+    # Return the mean accuracy on the given test data and labels.
+
     print('训练集准确率：', accuracy_score(y_train, clf.predict(x_train)))
     print(clf.score(x_test, y_test))
+
     print('测试集准确率：', accuracy_score(y_test, clf.predict(x_test)))
 
     # decision_function
+    print("x_train[:5]")
     print(x_train[:5])
     print('decision_function:\n', clf.decision_function(x_train))
+    #Evaluates the decision function for the samples in X.
     print('\npredict:\n', clf.predict(x_train))
+
+
 
     # 画图
     x1_min, x2_min = x.min()

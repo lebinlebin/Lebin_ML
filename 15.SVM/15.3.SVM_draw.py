@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
-    data = pd.read_csv('bipartition.txt', sep='\t', header=None)
+    data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/15.SVM/bipartition.txt', sep='\t', header=None)
     x, y = data[[0, 1]], data[2]
 
     # 分类器
