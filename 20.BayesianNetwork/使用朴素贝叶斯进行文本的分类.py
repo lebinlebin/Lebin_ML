@@ -10,16 +10,28 @@
 """
 from sklearn.datasets import fetch_20newsgroups
 news = fetch_20newsgroups(subset='all')
-print (news.keys())
-print (type(news.data), type(news.target), type(news.target_names))
-print (news.target_names)
-print (len(news.data))
-print (len(news.target))
-print (news.data[0])
-print (news.target[0], news.target_names[news.target[0]])
+print("------news.keys()---------")
+print(news.keys())
+
+
+print("------type---------")
+print(type(news.data), type(news.target), type(news.target_names))
+
+print("------target_names---------")
+print(news.target_names)
+print("------len(news.data)---------")
+print(len(news.data))
+print("------len(news.target)---------")
+print(len(news.target))
+print("------news.data[0]---------")
+print(news.data[0])
+
+print("------news.target[0], news.target_names[news.target[0]]---------")
 """
 打印的新闻内容,类别为10，类别名为rec.sport.hockey。
 """
+print(news.target[0], news.target_names[news.target[0]])
+
 """
 划分训练与测试数据
 在进行转换工作之前，我们需要将数据划分为训练和测试数据集。
@@ -32,6 +44,8 @@ X_test = news.data[split_size:]
 Y_train = news.target[:split_size]
 Y_test = news.target[split_size:]
 """
+两种划分数据为训练集合测试集的方式
+
 因为sklearn.datasets.fetch_20newsgroups本身可以根据subset参数来选择训练数据和测试数据，
 这里训练数据有11,314条，占总数据集的60%，测试数据集占40%。可以通过如下方式得到：
 """
@@ -44,10 +58,12 @@ Y_test = news_test.target
 
 """
 scikit-learn提供了一些实用工具可以用最常见的方式从文本内容中抽取数值特征，比如说：
-标记（tokenizing）文本以及为每一个可能的标记(token)分配的一个整型ID，例如用空格和标点符号作为标记的分割符（中文的话涉及到分词的问题）
-计数（counting）标记(token)在每个文本中的出现频率
-在大多数样本/文档中都出现的标记的重要性递减过程中，进行标准化(normalizing)和加权(weighting) 
+标记（tokenizing）文本以及为每一个可能的标记(token)分配的一个整型ID，
+例如用空格和标点符号作为标记的分割符（中文的话涉及到分词的问题）
 
+计数（counting）标记(token)在每个文本中的出现频率
+
+在大多数样本/文档中都出现的标记的重要性递减过程中，进行标准化(normalizing)和加权(weighting) 
 将每个独立的标记(token)的出现频率（不管是否标准化）看做是特征 
 给定一个文档的所有标记的频率构成向量看做是一个多变量的样本 
 这样一个文本的语料库就可以表征为一个矩阵，其中每一行代表了一个文档，而每一列代表了在该语料库中出现的标记词。
@@ -86,20 +102,39 @@ from sklearn.pipeline import Pipeline
 from sklearn.feature_extraction.text import TfidfVectorizer, HashingVectorizer, CountVectorizer
 from sklearn.naive_bayes import GaussianNB
 #nbc means naive bayes classifier
+
+"""
+CountVectorizer方法构建单词的字典，每个单词实例被转换为特征向量的一个数值特征，每个元素是特定单词在文本中出现的次数
+"""
 nbc_1 = Pipeline([
     ('vect', CountVectorizer()),
     ('clf', MultinomialNB()),#Naive Bayes classifier for multinomial models
 ])
-nbc_2 = Pipeline([
-    ('vect', HashingVectorizer()),#贝叶斯估计不允许输入为负值non_negative=True
-    ('clf', GaussianNB()),#Gaussian Naive Bayes (GaussianNB)
-])
+"""
+HashingVectorizer方法实现了一个哈希函数，将标记映射为特征的索引，其特征的计算同CountVectorizer方法
+"""
+# non_negative=True -- 模型仅包含非负值
+# nbc_2 = Pipeline([
+#     ('vect', HashingVectorizer(non_negative=True)),
+#     ('clf', MultinomialNB()),
+# ])
+
+# nbc_2 = Pipeline([
+#     ('vect', HashingVectorizer()),#贝叶斯估计不允许输入为负值non_negative=True
+#     ('clf', GaussianNB()),#Gaussian Naive Bayes (GaussianNB)
+# ])
+"""
+TfidfVectorizer使用了一个高级的计算方法，称为Term Frequency Inverse Document 
+"""
 nbc_3 = Pipeline([
     ('vect', TfidfVectorizer()),
     ('clf', MultinomialNB()),
 ])
-
-nbcs = [nbc_1, nbc_2, nbc_3]
+"""
+MultinomialNB()):函数全称是先验为多项式分布的朴素贝叶斯。
+GaussianNB():先验为高斯分布的朴素贝叶斯
+"""
+nbcs = [nbc_1, nbc_3]
 
 """
 交叉验证
@@ -110,15 +145,21 @@ from sklearn.model_selection import cross_val_score, KFold
 from scipy.stats import sem
 import numpy as np
 
+"""
+定义验证函数
+"""
 def evaluate_cross_validation(clf, X, y, K):
     # create a k-fold croos validation iterator of k=5 folds
     # cv = KFold(len(y), K, shuffle=True, random_state=0)
     cv = KFold(K, shuffle=True, random_state=0)
-
     # by default the score used is the one returned by score method of the estimator (accuracy)
     scores = cross_val_score(clf, X, y, cv=cv)
+    print("-----cross_val_score----")
     print(scores)
+    print("-----np.mean(scores),  sem(scores)  ----")
     print(np.mean(scores), sem(scores))
+    # sem:计算标准误差
+    # Calculate the standard error
 """
 将训练数据分成5份，输出验证的分数：
 """
@@ -134,13 +175,15 @@ Mean score: 0.839 (+/-0.004)
 从上面的结果看出，CountVectorizer和TfidfVectorizer进行特征提取的方法要比HashingVectorizer的效果好。
 """
 
+
+
 """
 优化提取单词规则参数 token_pattern
 TfidfVectorizer的一个参数token_pattern用于指定提取单词的规则。 
 默认的正则表达式是r"\b\w\w+\b"，这个正则表达式只匹配单词边界并考虑到了下划线，也可能考虑到了横杠和点。 
 新的正则表达式是r"\b[a-z0-9_\-\.]+[a-z][a-z0-9_\-\.]+\b"。
 """
-
+print("---------- 优化提取单词规则参数 token_pattern ---------------")
 nbc_4 = Pipeline([
     ('vect', TfidfVectorizer(
                 token_pattern=r"\b[a-z0-9_\-\.]+[a-z][a-z0-9_\-\.]+\b",
@@ -152,18 +195,29 @@ evaluate_cross_validation(nbc_4, X_train, Y_train, 5)
 这个分数已经比之前的0.839提高了一些了。
 """
 
+
 """
 优化省略词(stopwords)参数
 TfidfVectorizer的一个参数stop_words这个参数指定的词将被省略不计入到标记词的列表中，
 比如一些出现频率很高的词，但是这些词对于特定的主题不能提供任何的先验支持。
 """
+print("---------- 优化省略词(stopwords)参数 ---------------")
+# def get_stop_words():
+#     result = set()
+#     for line in open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.BayesianNetwork/stopword.txt', 'rb+').readlines():
+#         print(line)
+#         result.add(line.strip())
+#     return result
 def get_stop_words():
-    result = set()
-    for line in open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/20.BayesianNetwork/stopword.txt', 'rb+').readlines():
-        print(line)
-        result.add(line.strip())
-    return result
-
+    stopwords = set()
+    f = open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/22.LDA/stopword.txt','rb+')
+    # data = f.read()
+    # print(chardet.detect(data))  # 去掉['encoding']可以看完整输出，这里我做了筛选，只显示encoding
+    for w in f:
+        # print(w.strip().decode('GB18030'))
+        stopwords.add(w.strip().decode('GB18030'))
+    f.close()
+    return stopwords
 
 stop_words = get_stop_words()
 nbc_5 = Pipeline([
@@ -184,6 +238,8 @@ Mean score: 0.884 (+/-0.002)
 优化贝叶斯分类器的alpha参数
 MultinomialNB有一个alpha参数，该参数是一个平滑参数，默认是1.0，我们将其设为0.01。
 """
+
+print("---------- 优化贝叶斯分类器的alpha参数 ---------------")
 nbc_6 = Pipeline([
     ('vect', TfidfVectorizer(
                 stop_words=stop_words,
@@ -202,17 +258,18 @@ Mean score: 0.915 (+/-0.003)
 评估分类器性能
 我们通过交叉验证得到了效果比较好的分类器参数，下面我们可以用该分类器来测试我们的测试数据了。
 """
+print("---------- 评估分类器性能 ---------------")
 from sklearn import metrics
 nbc_6.fit(X_train, Y_train)
-print ("Accuracy on training set:")
-print (nbc_6.score(X_train, Y_train))
-print ("Accuracy on testing set:")
-print (nbc_6.score(X_test,Y_test))
+print("Accuracy on training set:")
+print(nbc_6.score(X_train, Y_train))
+print("Accuracy on testing set:")
+print(nbc_6.score(X_test,Y_test))
 y_predict = nbc_6.predict(X_test)
-print ("Classification Report:")
-print (metrics.classification_report(Y_test,y_predict))
-print ("Confusion Matrix:")
-print (metrics.confusion_matrix(Y_test,y_predict))
+print("Classification Report:")
+print(metrics.classification_report(Y_test,y_predict))
+print("Confusion Matrix:")
+print(metrics.confusion_matrix(Y_test,y_predict))
 
 """
 这里只输出准确率:
