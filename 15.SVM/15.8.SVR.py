@@ -22,6 +22,7 @@ if __name__ == "__main__":
     svr_linear = svm.SVR(kernel='linear', C=100)
     svr_linear.fit(x, y)
     print('SVR - Polynomial')
+    #三阶特征   原始特征有n个——>n^3个特征
     svr_poly = svm.SVR(kernel='poly', degree=3, C=100)
     svr_poly.fit(x, y)
     print('Fit OK.')

@@ -1,6 +1,10 @@
 #!/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+decision_function是什么？？
+多分类情况
+ovo，ovr
+"""
 import numpy as np
 from sklearn import svm
 from scipy import stats
@@ -17,20 +21,30 @@ if __name__ == "__main__":
     np.random.seed(0)
     N = 200
     x = np.empty((4*N, 2))
+    #构造样本，均值，方差，正态分布
     means = [(-1, 1), (1, 1), (1, -1), (-1, -1)]
     sigmas = [np.eye(2), 2*np.eye(2), np.diag((1,2)), np.array(((3, 2), (2, 3)))]
     for i in range(4):
         mn = stats.multivariate_normal(means[i], sigmas[i]*0.1)
-        x[i*N:(i+1)*N, :] = mn.rvs(N)
+        x[i*N:(i+1)*N, :] = mn.rvs(N)#从不同的分布，随机采样，得到样本。
+
     a = np.array((0,1,2,3)).reshape((-1, 1))
+    #label数据复制N份
     y = np.tile(a, N).flatten()
-    clf = svm.SVC(C=1, kernel='rbf', gamma=1, decision_function_shape='ovr')
-    # clf = svm.SVC(C=1, kernel='linear', decision_function_shape='ovr')
+
+    """
+    模型训练
+    """
+    # clf = svm.SVC(C=1, kernel='rbf', gamma=1, decision_function_shape='ovo')#4选2,一共有6个决策值
+    clf = svm.SVC(C=1, kernel='linear', decision_function_shape='ovr')#有4个类别，对应4个值
     clf.fit(x, y)
+
     y_hat = clf.predict(x)
     acc = accuracy_score(y, y_hat)
     np.set_printoptions(suppress=True)
     print('预测正确的样本个数：%d，正确率：%.2f%%' % (round(acc*4*N), 100*acc))
+
+
     # decision_function
     print(clf.decision_function(x))
     print(y_hat)

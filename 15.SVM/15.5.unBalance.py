@@ -14,6 +14,7 @@ if __name__ == "__main__":
     warnings.filterwarnings(action='ignore', category=UndefinedMetricWarning)
     np.random.seed(0)   # 保持每次生成的数据相同
 
+   #造数据，990个正例，10个负例
     c1 = 990
     c2 = 10
     N = c1 + c2
@@ -27,8 +28,8 @@ if __name__ == "__main__":
     s = np.ones(N) * 30
     s[:c1] = 10
 
-    # 分类器
-    weight = [2,30,2,30]
+    # 非平衡数据赋予样本不同权重训练分类器
+    weight = [2,30,2,30]                      #负例的权值为1，正例的权值分别为2，30，
     clfs = [svm.SVC(C=1, kernel='linear', class_weight={-1:1, 1:weight[0]}),
            svm.SVC(C=1, kernel='linear', class_weight={-1:1, 1:weight[1]}),
            svm.SVC(C=0.8, kernel='rbf', gamma=0.5, class_weight={-1:1, 1:weight[2]}),
@@ -52,12 +53,11 @@ if __name__ == "__main__":
         clf.fit(x, y)
 
         y_hat = clf.predict(x)
-        # show_accuracy(y_hat, y) # 正确率
-        # show_recall(y, y_hat)   # 召回率
+
         print(i+1, '次：')
-        print('accuracy：\t', accuracy_score(y, y_hat))
+        print('accuracy：\t', accuracy_score(y, y_hat))# 正确率
         print('precision：\t', precision_score(y, y_hat, pos_label=1))
-        print('recall：\t', recall_score(y, y_hat, pos_label=1))
+        print('recall：\t', recall_score(y, y_hat, pos_label=1))# 召回率
         print('F1-score：\t', f1_score(y, y_hat, pos_label=1))
         print()
 

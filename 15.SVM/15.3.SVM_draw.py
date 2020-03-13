@@ -11,12 +11,15 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
+    #自己造的二分类数据
     data = pd.read_csv('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/15.SVM/bipartition.txt', sep='\t', header=None)
     x, y = data[[0, 1]], data[2]
 
     # 分类器
     clf_param = (('linear', 0.1), ('linear', 0.5), ('linear', 1), ('linear', 2),
+                 #
                 ('rbf', 1, 0.1), ('rbf', 1, 1), ('rbf', 1, 10), ('rbf', 1, 100),
+                 #gama是高斯分布的精度，gama分别取值为0.1，1，10，100，gama越大，🙆理我最近的样本点都会衰减下去。gama趋近于无穷时候，svm就退化为K近邻，是一个1近邻。
                 ('rbf', 5, 0.1), ('rbf', 5, 1), ('rbf', 5, 10), ('rbf', 5, 100))
     x1_min, x2_min = np.min(x, axis=0)
     x1_max, x2_max = np.max(x, axis=0)

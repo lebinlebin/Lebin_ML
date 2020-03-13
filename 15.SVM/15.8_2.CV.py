@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+参数优化
+"""
 import numpy as np
 from sklearn import svm
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV    # 0.17 grid_search
