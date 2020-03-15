@@ -33,7 +33,7 @@ def save_result(model):
 
 
 if __name__ == "__main__":
-    classifier_type = 'RF'
+    classifier_type = 'SVM'
 
     print('载入训练数据...')
     t = time()
