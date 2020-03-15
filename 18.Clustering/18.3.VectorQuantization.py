@@ -53,7 +53,7 @@ if __name__ == '__main__':
     matplotlib.rcParams['axes.unicode_minus'] = False
 
     num_vq = 50
-    im = Image.open('.\\lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
+    im = Image.open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/18.Clustering/Lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
     image = np.array(im).astype(np.float) / 255
     image = image[:, :, :3]
     image_v = image.reshape((-1, 3))

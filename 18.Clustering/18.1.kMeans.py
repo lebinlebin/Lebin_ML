@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+Kmeans算法
+"""
 import numpy as np
 import matplotlib.colors
 import matplotlib.pyplot as plt

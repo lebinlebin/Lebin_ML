@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+Affinity Propagation 算法
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.datasets as ds

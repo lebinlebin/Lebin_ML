@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+聚类的衡量指标
+"""
 from sklearn import metrics
 
 

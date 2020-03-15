@@ -1,6 +1,8 @@
 # !/usr/bin/python
 # -*- coding:utf-8 -*-
-
+"""
+谱聚类
+"""
 import numpy as np
 import matplotlib.pyplot as plt
 import sklearn.datasets as ds
