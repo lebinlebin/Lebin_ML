@@ -50,7 +50,7 @@ trainLabel = np.array([2.5,3.2,3.9,4.6,5.3,6,6.7,7.4,8.1,8.8])
 m, n = np.shape(trainData)
 theta = np.ones(n)
 alpha = 0.1
-maxIteration = 50
+maxIteration = 500
 #下面返回的theta就是学到的theta
 theta = batchGradientDescent(trainData, trainLabel, theta, alpha, m, maxIteration)
 print ("batchGradientDescenttheta = ",theta)

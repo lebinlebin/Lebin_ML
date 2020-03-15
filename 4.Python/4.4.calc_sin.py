@@ -6,6 +6,9 @@ import math
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 
+from matplotlib.font_manager import _rebuild
+_rebuild() #reload一下
+
 
 def calc_sin_small(x):
     x2 = -x ** 2
