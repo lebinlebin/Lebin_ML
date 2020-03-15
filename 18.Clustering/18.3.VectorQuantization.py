@@ -1,6 +1,10 @@
 # !/usr/bin/python
 # -*- coding: utf-8 -*-
-
+"""
+图像量化
+对于图像颜色频数比较少的直接丢掉
+这里其实局势通过聚类算法对数据进行了降维。丢了很多数量比较少的数据
+"""
 from PIL import Image
 import numpy as np
 from sklearn.cluster import KMeans
@@ -53,9 +57,12 @@ if __name__ == '__main__':
     matplotlib.rcParams['axes.unicode_minus'] = False
 
     num_vq = 50
-    im = Image.open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/18.Clustering/Lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
-    image = np.array(im).astype(np.float) / 255
-    image = image[:, :, :3]
+    # im = Image.open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/18.Clustering/flower2.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
+    im = Image.open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/18.Clustering/flower_2.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
+
+    # im = Image.open('/Users/liulebin/Documents/codeing/codeingForSelfStudy/ML-Basic-Theory-Study/ML_Learning_code/18.Clustering/Lena.png')     # son.bmp(100)/flower2.png(200)/son.png(60)/lena.png(50)
+    image = np.array(im).astype(np.float) / 255#归一化到0-1
+    image = image[:, :, :3]#只取RGB
     image_v = image.reshape((-1, 3))
     show_scatter(image_v)
 
@@ -63,7 +70,8 @@ if __name__ == '__main__':
     # 选择足够多的样本(如1000个)，计算聚类中心
     idx = np.random.randint(0, N, size=1000)
     image_sample = image_v[idx]
-    model = KMeans(num_vq)
+    model = KMeans(num_vq)#聚类为60类
+
     model.fit(image_sample)
     c = model.predict(image_v)  # 聚类结果
     print('聚类结果：\n', c)
